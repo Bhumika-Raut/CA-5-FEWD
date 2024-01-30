@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
+import SearchBox from "./components/SearchBox";
 
 function App() {
   const [apiData, setApiData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -17,6 +19,7 @@ function App() {
       .then((response) => {
         const data = response.data.books;
         setApiData(data);
+        setFilteredData(data); 
         setLoading(false);
       })
       .catch((error) => {
@@ -29,11 +32,31 @@ function App() {
   const handleImageClick = (book, event) => {
     setSelectedBook(book);
 
-    // Calculate the position of the popup based on the clicked image's coordinates
     const rect = event.target.getBoundingClientRect();
+
+    const documentWidth = Math.max(
+      document.body.scrollWidth,
+      document.documentElement.scrollWidth,
+      document.body.offsetWidth,
+      document.documentElement.offsetWidth,
+      document.documentElement.clientWidth
+    );
+    const documentHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.documentElement.clientHeight
+    );
+    const centerX = documentWidth / 2;
+    const centerY = documentHeight / 2;
+
+    const popupLeft = centerX - rect.width / 2;
+    const popupTop = centerY - rect.height / 2;
+
     setPopupPosition({
-      top: rect.top + window.scrollY,
-      left: rect.right + window.scrollX,
+      top: popupTop + window.scrollY,
+      left: popupLeft + window.scrollX,
     });
   };
 
@@ -41,29 +64,45 @@ function App() {
     setSelectedBook(null);
   };
 
+  
+  const handleSearch = (query) => {
+    const lowerCaseQuery = query.toLowerCase();
+    const filteredBooks = apiData.filter((book) =>
+      book.title.toLowerCase().includes(lowerCaseQuery)
+    );
+    setFilteredData(filteredBooks);
+  };
+
   return (
     <div className="App">
-      <input className="Search-Books" type="text" placeholder="Search Books" />
+      <img
+        src="./src/logo.png"
+        alt="Logo"
+        className="logo"
+      />
+      <SearchBox onSearch={handleSearch} />
       {loading && <p>Loading...</p>}
       {error && <p className="error-message">{error}</p>}
       {!loading && !error && (
         <div className="main">
-          {apiData.map((item) => (
-            <div key={item.id}>
-              <div className="container">
-                <div className="img-container">
-                  <h3>{item.title}</h3>
-                  <img
-                    src={item.imageLinks.smallThumbnail}
-                    alt={item.title}
-                    onClick={(event) => handleImageClick(item, event)}
-                  />
-                  <div className="author">{item.authors}</div>
+          <div className="books-container">
+            {filteredData.map((item) => (
+              <div key={item.id} className="book">
+                <div className="container">
+                  <div className="img-container">
+                    <h3>{item.title}</h3>
+                    <img
+                      src={item.imageLinks.smallThumbnail}
+                      alt={item.title}
+                      onClick={(event) => handleImageClick(item, event)}
+                      style={{ width: "200px", height: "300px" }}
+                    />
+                    <div className="author">{item.authors}</div>
+                  </div>
                 </div>
-                <hr />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 

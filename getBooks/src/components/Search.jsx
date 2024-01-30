@@ -1,9 +1,8 @@
 // import { useState, useEffect} from 'react';
-// import Books from './components/Books';
+
 
 // const Searchbox = () => {
 //     const [inputText, setinputText] = useState('');
-//     import  { useState, useEffect } from 'react';
      
     
 //     const SearchBox = () => {
@@ -30,10 +29,7 @@
 //         setInputText(event.target.value);
 //       };
     
-//       const handleKeyDown = (event) => {
-//         if (event.key === 'Escape') {
-//           setIsDropdownVisible(false);
-//         }
+    
 //       };
     
 //       useEffect(() => {
@@ -49,7 +45,7 @@
 //             type="text"
 //             value={inputText}
 //             onChange={handleInputChange}
-//             placeholder="Type here..."
+            
 //           />
 //           {isDropdownVisible && (
 //             <ul>
@@ -62,6 +58,5 @@
 //       );
 //     };
     
-//     export default SearchBox;
+//     export default Search;
     
-// }
