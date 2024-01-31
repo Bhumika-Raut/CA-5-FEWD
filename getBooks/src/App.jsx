@@ -3,6 +3,9 @@ import axios from "axios";
 import "./App.css";
 import SearchBox from "./components/SearchBox";
 import RegisterForm from "./components/RegisterForm";
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
+
+// imported required stuff like files, installed route
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -13,6 +16,7 @@ function App() {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showRegisterForm, setShowRegisterForm] = useState(false);
 
+  // the description for the books is temporirily hidden.
   useEffect(() => {
     axios
       .get("https://reactnd-books-api.udacity.com/books", {
@@ -30,14 +34,7 @@ function App() {
         setLoading(false);
       });
   }, []);
-
-  const handleImageClick = (book, event) => {
-    setSelectedBook(book);
-  };
-
-  const handleClosePopup = () => {
-    setSelectedBook(null);
-  };
+  // fetched books
 
   const handleSearch = (query) => {
     const lowerCaseQuery = query.toLowerCase();
@@ -56,63 +53,68 @@ function App() {
     setShowRegisterForm(false);
   };
 
+  // events for Registration, search
   return (
-    <div className="App">
-      {showRegisterForm ? (
-        <RegisterForm onRegister={handleRegister} />
-      ) : (
-        <div className="main">
-          <div className="header">
-            <img src="./src/logo.png" alt="Logo" className="logo" />
-            <div className="search-container">
-              <SearchBox onSearch={handleSearch} />
-              <button className="register-button" onClick={handleRegisterClick}>
-                Register
-              </button>
-            </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/register" element={<RegisterForm onRegister={handleRegister} />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+  // to link registration form
+
+  function Main() {
+    return (
+      <div className="main">
+        <div className="header">
+          <img src="./src/logo.png" alt="Logo" className="logo" />
+          <div className="search-container">
+            <SearchBox onSearch={handleSearch} />
+            <Link to="/register" className="register-button">Register</Link>
           </div>
-          {loading ? <p>Loading...</p> : null}
-          {error ? <p className="error-message">{error}</p> : null}
-          {!loading && !error && (
-            <div className="books-container">
-              {filteredData.map((item) => (
-                <div key={item.id} className="book">
-                  <div className="container">
-                    <div className="img-container">
-                      <h3>{item.title}</h3>
-                      <img
-                        src={item.imageLinks.smallThumbnail}
-                        alt={item.title}
-                        onClick={(event) => handleImageClick(item, event)}
-                        style={{ width: "200px", height: "300px" }}
-                      />
-                      <div className="author">{item.authors}</div>
-                    </div>
+        </div>
+        {loading ? <p>Loading...</p> : null}
+        {error ? <p className="error-message">{error}</p> : null}
+        {!loading && !error && (
+          <div className="books-container">
+            {filteredData.map((item) => (
+              <div key={item.id} className="book">
+                <div className="container">
+                  <div className="img-container">
+                    <h3>{item.title}</h3>
+                    <img
+                      src={item.imageLinks.smallThumbnail}
+                      alt={item.title}
+                      style={{ width: "200px", height: "300px" }}
+                    />
+                    <div className="author">{item.authors}</div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {selectedBook && (
-            <div
-              className="popup"
-              style={{
-                top: popupPosition.top,
-                left: popupPosition.left,
-              }}
-            >
-              <div className="popup-content">
-                <h2>{selectedBook.title}</h2>
-                <p>{selectedBook.description}</p>
-                <button onClick={handleClosePopup}>Close</button>
               </div>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
+            ))}
+          </div>
+        )}
+
+        {selectedBook && (
+          <div
+            className="popup"
+            style={{
+              top: popupPosition.top,
+              left: popupPosition.left,
+            }}
+          >
+            <div className="popup-content">
+              <h2>{selectedBook.title}</h2>
+              <p>{selectedBook.description}</p>
+               </div>
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,6 +1,10 @@
+body{
+  background-image: linear-gradient(rgb(0, 0, 0), rgb(47, 47, 124), rgb(166, 166, 255));
+}
 .App {
   text-align: center;
 }
+
 .main {
   display: flex;
   flex-direction: column;
@@ -129,14 +133,18 @@ button:hover {
 .search-section{
    margin-top: 10px;
 }
+.Search-Books{
+  background-color: #ccc;
+  color: #000;
+}
 
 .register-form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px; /* Adjust the width as needed */
+  width: 300px; 
   padding: 20px;
-  border: 1px solid #ccc; /* Add a border for better visibility */
+  border: 1px solid #ccc; 
   border-radius: 5px;
 }
 

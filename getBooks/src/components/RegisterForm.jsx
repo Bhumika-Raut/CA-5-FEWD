@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import "./RegisterForm.css"; 
+
+//  importing required files
 
 const RegisterForm = ({ onRegister }) => {
   const [formData, setFormData] = useState({
@@ -6,6 +9,8 @@ const RegisterForm = ({ onRegister }) => {
     email: "",
     password: "",
   });
+ 
+ 
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMismatch, setPasswordMismatch] = useState(false);
@@ -17,7 +22,8 @@ const RegisterForm = ({ onRegister }) => {
     const { name, value } = e.target;
     let updatedValue = value;
 
-    // Additional validation for the 'name' field
+     // declared state variable which are initially empty
+  
     if (name === 'name') {
       const maxLength = 30;
       const minLength = 3;
@@ -32,7 +38,6 @@ const RegisterForm = ({ onRegister }) => {
       }
     }
 
-    
     if (name === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
@@ -42,7 +47,7 @@ const RegisterForm = ({ onRegister }) => {
       }
     }
 
-    // Additional validation for the 'password' field
+  
     if (name === 'password') {
       const minLength = 10;
       const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(value);
@@ -53,6 +58,8 @@ const RegisterForm = ({ onRegister }) => {
         setPasswordError('');
       }
     }
+
+    // Above are the requirements that user need to fullfil 
 
     setFormData((prevData) => ({
       ...prevData,
@@ -70,17 +77,17 @@ const RegisterForm = ({ onRegister }) => {
 
     setPasswordMismatch(false);
 
-    // Additional check for name validation
+  
     if (nameError) {
       return;
     }
 
-    // Additional check for email validation
+    
     if (emailError) {
       return;
     }
 
-    // Additional check for password validation
+
     if (passwordError) {
       return;
     }
@@ -95,6 +102,7 @@ const RegisterForm = ({ onRegister }) => {
     setConfirmPassword("");
   };
 
+  // Above are the conditions for error 
   return (
     <form onSubmit={handleSubmit} className="register-form">
       <h2>Registration Form</h2>
@@ -105,7 +113,6 @@ const RegisterForm = ({ onRegister }) => {
       {passwordError && <p className="error-message">{passwordError}</p>}
 
       <label>
-        
         <input
           type="text"
           name="name"
@@ -126,7 +133,7 @@ const RegisterForm = ({ onRegister }) => {
         />
       </label>
       <label>
-       <input
+        <input
           type="password"
           name="password"
           placeholder="Password"
@@ -136,7 +143,7 @@ const RegisterForm = ({ onRegister }) => {
         />
       </label>
       <label>
-      <input
+        <input
           type="password"
           name="confirmPassword"
           placeholder="Confirm Password"
