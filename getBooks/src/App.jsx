@@ -13,7 +13,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showRegisterForm, setShowRegisterForm] = useState(false);
 
   // the description for the books is temporirily hidden.
@@ -70,7 +69,7 @@ function App() {
     return (
       <div className="main">
         <div className="header">
-          <img src="./src/logo.png" alt="Logo" className="logo" />
+          <b>KALVIUM BOOKS</b>
           <div className="search-container">
             <SearchBox onSearch={handleSearch} />
             <Link to="/register" className="register-button">Register</Link>

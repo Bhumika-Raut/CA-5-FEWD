@@ -19,8 +19,9 @@ body{
   margin: 20px auto;
 }
 
-.logo {
+b{
   max-width: 100px;
+  color: rgb(244, 0, 0);
 }
 
 .search-container {
