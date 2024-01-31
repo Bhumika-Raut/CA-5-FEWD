@@ -1,0 +1,8 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* This ensures the body takes the full height of the viewport */
+    margin: 0; /* Remove default body margin */
+  }
+  
